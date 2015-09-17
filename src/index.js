@@ -409,7 +409,7 @@ var ReactTelephoneInput = React.createClass({
     },
     getCountryDropDownList() {
 
-        var countryDropDownList = map([this.state.preferredCountries, ...this.props.onlyCountries], function(country, index) {
+        var countryDropDownList = map([...this.state.preferredCountries, ...this.props.onlyCountries], function(country, index) {
             let itemClasses = classNames({
                 country: true,
                 preferred: country.iso2 === 'us' || country.iso2 === 'gb',
@@ -437,7 +437,9 @@ var ReactTelephoneInput = React.createClass({
 
         const dashedLi = (<li key={"dashes"} className="divider" />);
         // let's insert a dashed line in between preffered countries and the rest
-        countryDropDownList.splice(this.state.preferredCountries.length, 0, dashedLi);
+        if (this.state.preferredCountries.length) {
+            countryDropDownList.splice(this.state.preferredCountries.length, 0, dashedLi);
+        }
 
         const dropDownClasses = classNames({
             'country-list': true,
