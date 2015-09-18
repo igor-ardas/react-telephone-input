@@ -189,7 +189,7 @@ var ReactTelephoneInput = React.createClass({
     _cursorToEnd() {
         var input = this.refs.numberInput.getDOMNode();
         input.focus();
-        if (isModernBrowser) {
+        if (isModernBrowser && input.setSelectionRange) {
             var len = input.value.length;
             input.setSelectionRange(len, len);
         }
