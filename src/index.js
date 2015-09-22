@@ -57,7 +57,7 @@ var ReactTelephoneInput = React.createClass({
         var inputNumber = this.props.value || '';
         var selectedCountryGuess = this.guessSelectedCountry(inputNumber.replace(/\D/g, ''));
         var selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
-        var formattedNumber = this.formatNumber(inputNumber.replace(/\D/g, ''), selectedCountryGuess ? selectedCountryGuess.format : null);
+        var formattedNumber = this.formatNumber(inputNumber, selectedCountryGuess ? selectedCountryGuess.format : null);
         var preferredCountries = [];
 
         preferredCountries = filter(allCountries, function(country) {
@@ -154,15 +154,18 @@ var ReactTelephoneInput = React.createClass({
             container.scrollTop = newScrollTop - heightDifference;
         }
     },
-    formatNumber(text, pattern) {
-        if(!text || text.length === 0) {
-            return '+';
-        }
 
+    formatNumber(number, pattern) {
+        var text = number;
+        if (this.props.autoFormat) {
+            text = text.replace(/\D/g, '');
+        } else {
+            text = text.replace(/[^\d|(|)|\-| ]*/g,'');
+        }
         // for all strings with length less than 3, just return it (1, 2 etc.)
         // also return the same text if the selected country has no fixed format
-        if((text && text.length < 2) || !pattern || !this.props.autoFormat) {
-            return `+${text}`;
+        if (!pattern || !this.props.autoFormat) {
+            return '+' + text;
         }
 
         var formattedObject = reduce(pattern, function(acc, character) {
@@ -263,7 +266,7 @@ var ReactTelephoneInput = React.createClass({
                 freezeSelection = false;
             }
             // let us remove all non numerals from the input
-            formattedNumber = this.formatNumber(inputNumber, newSelectedCountry.format);
+            formattedNumber = this.formatNumber(event.target.value, newSelectedCountry.format);
         }
 
         var caretPosition = event.target.selectionStart;
@@ -302,7 +305,7 @@ var ReactTelephoneInput = React.createClass({
         if(currentSelectedCountry.iso2 !== nextSelectedCountry.iso2) {
             // TODO - the below replacement is a bug. It will replace stuff from middle too
             var newNumber = this.state.formattedNumber.replace(currentSelectedCountry.dialCode, nextSelectedCountry.dialCode);
-            var formattedNumber = this.formatNumber(newNumber.replace(/\D/g, ''), nextSelectedCountry.format);
+            var formattedNumber = this.formatNumber(newNumber, nextSelectedCountry.format);
 
             this.setState({
                 showDropDown: false,
