@@ -2,20 +2,19 @@
 
 // TODO - fix the onlyContries props. Currently expects that as an array of country object, but users should be able to send in array of country isos
 
-var some = require('lodash/collection/some');
-var findWhere = require('lodash/collection/findWhere');
-var reduce = require('lodash/collection/reduce');
-var map = require('lodash/collection/map');
-var filter = require('lodash/collection/filter');
-var any = require('lodash/collection/any');
-var findIndex = require('lodash/array/findIndex');
-var first = require('lodash/array/first');
-var rest = require('lodash/array/rest');
-var debounce = require('lodash/function/debounce');
-var memoize = require('lodash/function/memoize');
+var some = require('lodash/some');
+var find = require('lodash/find');
+var reduce = require('lodash/reduce');
+var map = require('lodash/map');
+var filter = require('lodash/filter');
+var findIndex = require('lodash/findIndex');
+var first = require('lodash/first');
+var rest = require('lodash/rest');
+var debounce = require('lodash/debounce');
+var memoize = require('lodash/memoize');
 // import lodash string methods
-var trim = require('lodash/string/trim');
-var startsWith = require('lodash/string/startsWith');
+var trim = require('lodash/trim');
+var startsWith = require('lodash/startsWith');
 
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -63,7 +62,7 @@ var ReactTelephoneInput = React.createClass({
         var preferredCountries = [];
 
         preferredCountries = filter(allCountries, function(country) {
-            return any(this.props.preferredCountries, function(preferredCountry) {
+            return some(this.props.preferredCountries, function(preferredCountry) {
                 return preferredCountry === country.iso2;
             });
         }, this);
@@ -202,7 +201,7 @@ var ReactTelephoneInput = React.createClass({
     },
     // memoize results based on the first 5/6 characters. That is all that matters
     guessSelectedCountry: memoize(function(inputNumber) {
-        var secondBestGuess = findWhere(allCountries, {iso2: this.props.defaultCountry}) || this.props.onlyCountries[0];
+        var secondBestGuess = find(allCountries, {iso2: this.props.defaultCountry}) || this.props.onlyCountries[0];
         if(trim(inputNumber) !== '') {
             var bestGuess = reduce(this.props.onlyCountries, function(selectedCountry, country) {
                             if(startsWith(inputNumber, country.dialCode)) {
@@ -233,7 +232,7 @@ var ReactTelephoneInput = React.createClass({
         // need to put the highlight on the current selected country if the dropdown is going to open up
         this.setState({
             showDropDown: !this.state.showDropDown,
-            highlightCountry: findWhere(this.props.onlyCountries, this.state.selectedCountry),
+            highlightCountry: find(this.props.onlyCountries, this.state.selectedCountry),
             highlightCountryIndex: findIndex(this.props.onlyCountries, this.state.selectedCountry)
         }, () => {
             // only need to scrool if the dropdown list is alive
@@ -301,7 +300,7 @@ var ReactTelephoneInput = React.createClass({
     },
     handleFlagItemClick(country) {
         var currentSelectedCountry = this.state.selectedCountry;
-        var nextSelectedCountry = findWhere(this.props.onlyCountries, country);
+        var nextSelectedCountry = find(this.props.onlyCountries, country);
 
         // tiny optimization
         if(currentSelectedCountry.iso2 !== nextSelectedCountry.iso2) {
