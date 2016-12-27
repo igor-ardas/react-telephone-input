@@ -4940,12 +4940,13 @@ var ReactTelephoneInput = React.createClass({
         var selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
         var formattedNumber = this.formatNumber(inputNumber, selectedCountryGuess ? selectedCountryGuess.format : null);
         var preferredCountries = [];
+        var props = this.props;
 
         preferredCountries = filter(allCountries, function (country) {
-            return some(this.props.preferredCountries, function (preferredCountry) {
+            return some(props.preferredCountries, function (preferredCountry) {
                 return preferredCountry === country.iso2;
             });
-        }, this);
+        });
 
         return {
             preferredCountries: preferredCountries,
