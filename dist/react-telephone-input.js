@@ -5308,13 +5308,13 @@ var ReactTelephoneInput = React.createClass({
         }
     },
     getCountryDropDownList: function getCountryDropDownList() {
-
-        var countryDropDownList = map([].concat(_toConsumableArray(this.state.preferredCountries), _toConsumableArray(this.props.onlyCountries)), function (country, index) {
+      var context = this;
+      var countryDropDownList = map([].concat(_toConsumableArray(this.state.preferredCountries), _toConsumableArray(this.props.onlyCountries)), function (country, index) {
             var itemClasses = classNames({
                 country: true,
                 preferred: country.iso2 === 'us' || country.iso2 === 'gb',
                 active: country.iso2 === 'us',
-                highlight: this.state.highlightCountryIndex === index
+                highlight: context.state.highlightCountryIndex === index
             });
 
             var inputFlagClasses = 'flag ' + country.iso2;
