@@ -443,13 +443,13 @@ var ReactTelephoneInput = React.createClass({
                     className={itemClasses}
                     data-dial-code="1"
                     data-country-code={country.iso2}
-                    onClick={this.handleFlagItemClick.bind(this, country)}>
-                    <div className={inputFlagClasses} style={this.getFlagStyle()} />
+                    onClick={context.handleFlagItemClick.bind(context, country)}>
+                    <div className={inputFlagClasses} style={context.getFlagStyle()} />
                     <span className='country-name'>{country.name}</span>
                     <span className='dial-code'>{'+' + country.dialCode}</span>
                 </li>
             );
-        }, this);
+        }, context);
 
         const dashedLi = (<li key={"dashes"} className="divider" />);
         // let's insert a dashed line in between preffered countries and the rest

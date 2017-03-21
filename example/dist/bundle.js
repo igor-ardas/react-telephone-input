@@ -5325,8 +5325,8 @@ var ReactTelephoneInput = React.createClass({
                 className: itemClasses,
                 'data-dial-code': '1',
                 'data-country-code': country.iso2,
-                onClick: this.handleFlagItemClick.bind(this, country) }, React.createElement('div', { className: inputFlagClasses, style: this.getFlagStyle() }), React.createElement('span', { className: 'country-name' }, country.name), React.createElement('span', { className: 'dial-code' }, '+' + country.dialCode));
-        }, this);
+                onClick: context.handleFlagItemClick.bind(context, country) }, React.createElement('div', { className: inputFlagClasses, style: context.getFlagStyle() }), React.createElement('span', { className: 'country-name' }, country.name), React.createElement('span', { className: 'dial-code' }, '+' + country.dialCode));
+        }, context);
 
         var dashedLi = React.createElement('li', { key: "dashes", className: 'divider' });
         // let's insert a dashed line in between preffered countries and the rest
