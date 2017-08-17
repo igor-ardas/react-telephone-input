@@ -55,6 +55,7 @@ function isNumberValid(inputNumber) {
 var ReactTelephoneInput = React.createClass({
     mixins: [onClickOutside],
     getInitialState() {
+        this.references = {};
         var inputNumber = this.props.value || '';
         var selectedCountryGuess = this.guessSelectedCountry(inputNumber.replace(/\D/g, ''));
         var selectedCountryGuessIndex = findIndex(allCountries, selectedCountryGuess);
@@ -121,7 +122,7 @@ var ReactTelephoneInput = React.createClass({
             return;
         }
 
-        var container = ReactDOM.findDOMNode(this.refs.flagDropdownList);
+        var container = ReactDOM.findDOMNode(this.references.flagDropdownList);
 
         if(!container) {
           return;
@@ -192,7 +193,7 @@ var ReactTelephoneInput = React.createClass({
 
     // put the cursor to the end of the input (usually after a focus event)
     _cursorToEnd() {
-        var input = ReactDOM.findDOMNode(this.refs.numberInput);
+        var input = ReactDOM.findDOMNode(this.references.numberInput);
         this.programFocus = true;
         input.focus();
         if (isModernBrowser && input.setSelectionRange) {
@@ -286,7 +287,7 @@ var ReactTelephoneInput = React.createClass({
                 }
 
                 if(caretPosition > 0 && oldFormattedText.length >= formattedNumber.length) {
-                  ReactDOM.findDOMNode(this.refs.numberInput).setSelectionRange(caretPosition, caretPosition);
+                  ReactDOM.findDOMNode(this.references.numberInput).setSelectionRange(caretPosition, caretPosition);
                 }
             }
 
@@ -324,11 +325,11 @@ var ReactTelephoneInput = React.createClass({
     },
     handleInputFocus() {
         // if the input is blank, insert dial code of the selected country
-        if(ReactDOM.findDOMNode(this.refs.numberInput).value === '+') {
+        if(ReactDOM.findDOMNode(this.references.numberInput).value === '+') {
             this.setState({formattedNumber: '+' + this.state.selectedCountry.dialCode});
         }
         if (!this.programFocus) {
-            var input = ReactDOM.findDOMNode(this.refs.numberInput);
+            var input = ReactDOM.findDOMNode(this.references.numberInput);
             if (isModernBrowser && input.setSelectionRange) {
                 var len = input.value.length;
                 setTimeout(function() {
@@ -437,7 +438,7 @@ var ReactTelephoneInput = React.createClass({
 
             return (
                 <li
-                    ref={`flag_no_${index}`}
+                    ref={(c) => this.references[`flag_no_${index}`] = c}
                     key={`flag_no_${index}`}
                     data-flag-key={`flag_no_${index}`}
                     className={itemClasses}
@@ -462,7 +463,7 @@ var ReactTelephoneInput = React.createClass({
             'hide': !this.state.showDropDown
         });
         return (
-            <ul ref="flagDropdownList" className={dropDownClasses}>
+            <ul ref={(c) => this.references.flagDropdownList = c} className={dropDownClasses}>
                 {countryDropDownList}
             </ul>
         );
@@ -499,12 +500,12 @@ var ReactTelephoneInput = React.createClass({
                     onFocus={this.handleInputFocus}
                     onKeyDown={this.handleInputKeyDown}
                     value={this.state.formattedNumber}
-                    ref="numberInput"
+                    ref={(c) => this.references.numberInput = c}
                     type="tel"
                     className={inputClasses}
                     placeholder='+1 (702) 123-4567'/>
-                <div ref='flagDropDownButton' className={flagViewClasses} onKeyDown={this.handleKeydown} >
-                    <div ref='selectedFlag' onClick={this.handleFlagDropdownClick} className='selected-flag' title={`${this.state.selectedCountry.name}: + ${this.state.selectedCountry.dialCode}`}>
+                <div ref={(c) => this.references.flagDropDownButton = c} className={flagViewClasses} onKeyDown={this.handleKeydown} >
+                    <div ref={(c) => this.references.selectedFlag = c} onClick={this.handleFlagDropdownClick} className='selected-flag' title={`${this.state.selectedCountry.name}: + ${this.state.selectedCountry.dialCode}`}>
                         <div className={inputFlagClasses} style={this.getFlagStyle()}>
                             <div className={arrowClasses}></div>
                         </div>
