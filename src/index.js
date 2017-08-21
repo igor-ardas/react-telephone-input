@@ -228,7 +228,7 @@ var ReactTelephoneInput = React.createClass({
         return bestGuess;
     }),
     getElement(index) {
-        return ReactDOM.findDOMNode(this.refs[`flag_no_${index}`]);
+        return ReactDOM.findDOMNode(this.references[`flag_no_${index}`]);
     },
     handleFlagDropdownClick() {
         // need to put the highlight on the current selected country if the dropdown is going to open up
@@ -438,7 +438,7 @@ var ReactTelephoneInput = React.createClass({
 
             return (
                 <li
-                    ref={(c) => this.references[`flag_no_${index}`] = c}
+                    ref={(c) => context.references[`flag_no_${index}`] = c}
                     key={`flag_no_${index}`}
                     data-flag-key={`flag_no_${index}`}
                     className={itemClasses}
