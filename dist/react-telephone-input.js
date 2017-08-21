@@ -5224,7 +5224,7 @@ var ReactTelephoneInput = React.createClass({
         return bestGuess;
     }),
     getElement: function getElement(index) {
-        return ReactDOM.findDOMNode(this.refs['flag_no_' + index]);
+        return ReactDOM.findDOMNode(this.references['flag_no_' + index]);
     },
     handleFlagDropdownClick: function handleFlagDropdownClick() {
         var _this = this;
@@ -5424,12 +5424,10 @@ var ReactTelephoneInput = React.createClass({
         }
     },
     getCountryDropDownList: function getCountryDropDownList() {
-        var _this4 = this;
+        var _this3 = this;
 
         var context = this;
         var countryDropDownList = map([].concat(_toConsumableArray(this.state.preferredCountries), _toConsumableArray(this.props.onlyCountries)), function (country, index) {
-            var _this3 = this;
-
             var itemClasses = classNames({
                 country: true,
                 preferred: country.iso2 === 'us' || country.iso2 === 'gb',
@@ -5441,7 +5439,7 @@ var ReactTelephoneInput = React.createClass({
 
             return React.createElement('li', {
                 ref: function ref(c) {
-                    return _this3.references['flag_no_' + index] = c;
+                    return context.references['flag_no_' + index] = c;
                 },
                 key: 'flag_no_' + index,
                 'data-flag-key': 'flag_no_' + index,
@@ -5462,7 +5460,7 @@ var ReactTelephoneInput = React.createClass({
             'hide': !this.state.showDropDown
         });
         return React.createElement('ul', { ref: function ref(c) {
-                return _this4.references.flagDropdownList = c;
+                return _this3.references.flagDropdownList = c;
             }, className: dropDownClasses }, countryDropDownList);
     },
     getFlagStyle: function getFlagStyle() {
@@ -5473,7 +5471,7 @@ var ReactTelephoneInput = React.createClass({
         };
     },
     render: function render() {
-        var _this5 = this;
+        var _this4 = this;
 
         var arrowClasses = classNames({
             'arrow': true,
@@ -5498,14 +5496,14 @@ var ReactTelephoneInput = React.createClass({
             onKeyDown: this.handleInputKeyDown,
             value: this.state.formattedNumber,
             ref: function ref(c) {
-                return _this5.references.numberInput = c;
+                return _this4.references.numberInput = c;
             },
             type: 'tel',
             className: inputClasses,
             placeholder: '+1 (702) 123-4567' }), React.createElement('div', { ref: function ref(c) {
-                return _this5.references.flagDropDownButton = c;
+                return _this4.references.flagDropDownButton = c;
             }, className: flagViewClasses, onKeyDown: this.handleKeydown }, React.createElement('div', { ref: function ref(c) {
-                return _this5.references.selectedFlag = c;
+                return _this4.references.selectedFlag = c;
             }, onClick: this.handleFlagDropdownClick, className: 'selected-flag', title: this.state.selectedCountry.name + ': + ' + this.state.selectedCountry.dialCode }, React.createElement('div', { className: inputFlagClasses, style: this.getFlagStyle() }, React.createElement('div', { className: arrowClasses }))), this.state.showDropDown ? this.getCountryDropDownList() : ''));
     }
 });
