@@ -109,7 +109,6 @@ var ReactTelephoneInput = React.createClass({
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeydown);
 
-        this._cursorToEnd();
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(this.state.formattedNumber);
         }
