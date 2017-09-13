@@ -5297,7 +5297,7 @@ var ReactTelephoneInput = React.createClass({
     handleInputClick: function handleInputClick() {
         this.setState({ showDropDown: false });
     },
-    handleFlagItemClick: function handleFlagItemClick(country) {
+    handleFlagItemClick: function handleFlagItemClick(country, withoutFocus) {
         var currentSelectedCountry = this.state.selectedCountry;
         var nextSelectedCountry = find(this.props.onlyCountries, country);
 
@@ -5313,7 +5313,9 @@ var ReactTelephoneInput = React.createClass({
                 freezeSelection: true,
                 formattedNumber: formattedNumber
             }, function () {
-                this._cursorToEnd();
+                if (!withoutFocus) {
+                    this._cursorToEnd();
+                }
                 if (this.props.onChange) {
                     this.props.onChange(formattedNumber);
                 }
